@@ -417,7 +417,7 @@ export default function Portfolio() {
               <div className="relative transform hover:scale-105 transition-transform duration-500">
                 <div className="w-80 h-80 rounded-full bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 p-1 animate-pulse">
                   <img
-                    src="/placeholder.svg?height=320&width=320"
+                    src="/rahat.png?height=320&width=320"
                     alt="Rahat Ali Sheikh"
                     className="w-full h-full rounded-full object-cover"
                   />
@@ -464,7 +464,7 @@ export default function Portfolio() {
                     </div>
                     <div>
                       <p className="font-semibold text-white">Email</p>
-                      <p className="text-gray-400">rahat.ali.sheikh@email.com</p>
+                      <p className="text-gray-400">rahatalisheikh45@email.com</p>
                     </div>
                   </div>
 
@@ -474,7 +474,7 @@ export default function Portfolio() {
                     </div>
                     <div>
                       <p className="font-semibold text-white">Phone</p>
-                      <p className="text-gray-400">+92 300 1234567</p>
+                      <p className="text-gray-400">+92 334 2813133</p>
                     </div>
                   </div>
 
@@ -495,7 +495,10 @@ export default function Portfolio() {
                     className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 transform hover:scale-105 transition-all duration-300 shadow-lg"
                   >
                     <Github className="w-5 h-5 mr-2" />
-                    GitHub
+                      
+                    <a href="https://github.com/Rahatali8" target="_blank" rel="noopener noreferrer">
+                      GitHub
+                    </a>
                   </Button>
                   <Button
                     size="lg"
@@ -503,7 +506,9 @@ export default function Portfolio() {
                     className="border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-white bg-transparent transform hover:scale-105 transition-all duration-300"
                   >
                     <Linkedin className="w-5 h-5 mr-2" />
+                   <a href="https://www.linkedin.com/in/rahat-ali-sheikh-811043302/" target="_blank" rel="noopener noreferrer">
                     LinkedIn
+                   </a>
                   </Button>
                 </div>
               </div>
