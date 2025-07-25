@@ -60,7 +60,9 @@ const AnimatedText = ({ text }: { text: string }) => {
     } else {
       timeoutRef.current = setTimeout(() => setShow(true), letters.length * 120 + 1200);
     }
-    return () => timeoutRef.current && clearTimeout(timeoutRef.current);
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
   }, [show, letters.length]);
 
   return (
@@ -75,6 +77,48 @@ const AnimatedText = ({ text }: { text: string }) => {
             delay: i * 0.07,
             type: "spring",
             bounce: 0.3,
+          }}
+          style={{ display: char === " " ? "inline-block" : undefined }}
+        >
+          {char === " " ? "\u00A0" : char}
+        </motion.span>
+      ))}
+    </div>
+  );
+};
+
+// Alternate AnimatedText2: typewriter in from left, then out to right, repeat, single line, faster, simple style
+const AnimatedText2 = ({ text }: { text: string }) => {
+  const [visibleCount, setVisibleCount] = useState(0);
+  const [reverse, setReverse] = useState(false);
+  const letters = text.split("");
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    if (!reverse && visibleCount < letters.length) {
+      timeout = setTimeout(() => setVisibleCount(visibleCount + 1), 35);
+    } else if (!reverse && visibleCount === letters.length) {
+      timeout = setTimeout(() => setReverse(true), 700);
+    } else if (reverse && visibleCount > 0) {
+      timeout = setTimeout(() => setVisibleCount(visibleCount - 1), 35);
+    } else if (reverse && visibleCount === 0) {
+      timeout = setTimeout(() => setReverse(false), 400);
+    }
+    return () => clearTimeout(timeout);
+  }, [visibleCount, reverse, letters.length]);
+  return (
+    <div className="whitespace-nowrap text-5xl lg:text-6xl font-bold">
+      {letters.map((char, i) => (
+        <motion.span
+          key={i + (reverse ? "out" : "in")}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{
+            opacity: i < visibleCount ? 1 : 0,
+            x: i < visibleCount ? 0 : reverse ? 20 : -20,
+          }}
+          transition={{
+            duration: 0.18,
+            type: "tween",
+            delay: 0,
           }}
           style={{ display: char === " " ? "inline-block" : undefined }}
         >
@@ -125,7 +169,7 @@ export default function Portfolio() {
                 <p className="text-cyan-400 text-lg">Hello, I'm</p>
 
                 {/* Animated Text */}
-                <AnimatedText text="Rahat Ali Sheikh" />
+                <AnimatedText2 text="Rahat Ali Sheikh" />
 
                 <p className="text-xl text-gray-300">Full Stack Developer</p>
               </div>
@@ -180,7 +224,7 @@ export default function Portfolio() {
                 {skills.map((skill, index) => (
                   <Card
                     key={index}
-                    className="bg-slate-800 border-slate-700 hover:border-cyan-500 transition-all duration-500 group relative overflow-hidden cursor-pointer"
+                    className="bg-slate-800 border-slate-700 hover:border-cyan-500 transition-all duration-500 group relative overflow-hidden cursor-pointer group rounded-xl"
                     style={{
                       animationDelay: `${index * 150}ms`,
                       transformStyle: "preserve-3d",
@@ -196,9 +240,13 @@ export default function Portfolio() {
 
                     <CardContent className="p-6 text-center relative z-10 transform group-hover:translateZ-4 transition-all duration-500 group-hover:-translate-y-2">
                       {/* Icon with enhanced animation */}
-                      <div className="mb-3 transform group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 group-hover:drop-shadow-lg flex justify-center items-center">
+                      <motion.div
+                        className="mb-3 flex justify-center items-center group-hover:drop-shadow-lg"
+                        whileHover={{ rotate: 360 }}
+                        transition={{ type: "spring", duration: 0.7 }}
+                      >
                         {skill.icon && createElement(skill.icon, { size: 38, color: skill.color })}
-                      </div>
+                      </motion.div>
 
                       {/* Skill Name */}
                       <h3 className="font-semibold text-white mb-2 transform group-hover:scale-105 transition-all duration-300">
@@ -247,55 +295,62 @@ export default function Portfolio() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, index) => (
-              <Card
+              <motion.div
                 key={index}
-                className="bg-slate-800 border-slate-700 hover:border-cyan-500 transition-all duration-500 group overflow-hidden transform hover:scale-105 hover:-rotate-1"
-                style={{ animationDelay: `${index * 200}ms` }}
+                className="bg-slate-800 border-slate-700 hover:border-cyan-500 transition-all duration-500 group overflow-hidden"
+                style={{ animationDelay: `${index * 100}ms` }}
+                whileHover={{ y: -14, scale: 1.045, boxShadow: '0 8px 32px 0 rgba(6,182,212,0.15)' }}
               >
-                <div className="relative overflow-hidden">
-                  <img
-                    src={project.image || "/placeholder.svg"}
-                    alt={project.title}
-                    className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-2 text-white">{project.title}</h3>
-                  <p className="text-gray-400 mb-4">{project.description}</p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tech.map((tech, techIndex) => {
-                      const skillData = skills.find((s) => s.name === tech)
-                      return (
-                        <Badge
-                          key={techIndex}
-                          variant="secondary"
-                          className={`${skillData?.bgColor || "bg-cyan-500"}/20 text-cyan-400 border border-cyan-500/30`}
-                        >
-                          {tech}
-                        </Badge>
-                      )
-                    })}
+                <Card className="bg-transparent border-none shadow-none rounded-xl">
+                  <div className="relative overflow-hidden">
+                    <img
+                      src={project.image || "/placeholder.svg"}
+                      alt={project.title}
+                      className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
-                  <div className="flex gap-4">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-white bg-transparent transform hover:scale-105 transition-all duration-300"
-                    >
-                      <Github className="w-4 h-4 mr-2" />
-                      Code
-                    </Button>
-                    <Button
-                      size="sm"
-                      className="bg-cyan-500 hover:bg-cyan-600 transform hover:scale-105 transition-all duration-300"
-                    >
-                      <ExternalLink className="w-4 h-4 mr-2" />
-                      Live Demo
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+                  <CardContent className="p-6">
+                    <h3 className="text-xl font-semibold mb-2 text-white relative overflow-hidden">
+                      <span className="block group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-blue-500 group-hover:bg-clip-text group-hover:animate-gradient-move transition-all duration-500">
+                        {project.title}
+                      </span>
+                    </h3>
+                    <p className="text-gray-400 mb-4">{project.description}</p>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {project.tech.map((tech, techIndex) => {
+                        const skillData = skills.find((s) => s.name === tech)
+                        return (
+                          <Badge
+                            key={techIndex}
+                            variant="secondary"
+                            className={`${skillData?.bgColor || "bg-cyan-500"}/20 text-cyan-400 border border-cyan-500/30`}
+                          >
+                            {tech}
+                          </Badge>
+                        )
+                      })}
+                    </div>
+                    <div className="flex gap-4">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-white bg-transparent transform hover:scale-105 transition-all duration-300"
+                      >
+                        <Github className="w-4 h-4 mr-2" />
+                        Code
+                      </Button>
+                      <Button
+                        size="sm"
+                        className="bg-cyan-500 hover:bg-cyan-600 transform hover:scale-105 transition-all duration-300"
+                      >
+                        <ExternalLink className="w-4 h-4 mr-2" />
+                        Live Demo
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
           </div>
         </div>
