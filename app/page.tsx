@@ -170,27 +170,29 @@ export default function Portfolio() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <div className="space-y-2">
-                <p className="text-cyan-400 text-lg">Hello, I'm</p>
+                <p className="text-cyan-400 font-semibold text-4xl">Hello, I'm</p>
 
                 {/* Animated Text */}
                 <AnimatedText2 text="Rahat Ali Sheikh" />
 
-                <p className="text-xl text-gray-300">Full Stack Developer</p>
+                <h2 className="heading-2 text-2xl text-gray-300 mt-1">Full Stack Developer — React & Next.js</h2>
               </div>
-              <p className="text-gray-400 text-lg leading-relaxed max-w-lg">
-                Passionate full-stack developer with expertise in modern web technologies. I create scalable,
-                user-friendly applications that solve real-world problems.
+
+              <p className="text-gray-400 text-lg leading-relaxed max-w-2xl">
+                I build modern, high-performance web applications with beautiful user experiences — from
+                interactive 3D interfaces to scalable APIs. I focus on clean code, fast loading, and delightful UI.
               </p>
-              <div className="flex gap-4">
+
+              <div className="flex flex-wrap gap-4 items-center">
                 <Button
-                  className="bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-3 transform hover:scale-105 transition-all duration-300"
+                  className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-6 py-3 rounded-full transform hover:scale-105 transition-all duration-300 shadow-lg"
                   onClick={() => scrollToSection("projects")}
                 >
                   View Projects
                 </Button>
                 <Button
                   variant="outline"
-                  className="border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-white px-8 py-3 bg-transparent transform hover:scale-105 transition-all duration-300"
+                  className="border border-cyan-500 text-cyan-300 hover:bg-cyan-500/10 px-6 py-3 rounded-full transform hover:scale-105 transition-all duration-300"
                   onClick={() => scrollToSection("contact")}
                 >
                   Contact Me
@@ -683,7 +685,6 @@ export default function Portfolio() {
         </motion.div>
       )}
 
-      {/* Footer */}
       <footer className="py-8 bg-slate-800 border-t border-slate-700">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center">

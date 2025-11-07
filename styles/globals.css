@@ -88,3 +88,27 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Typography tweaks for headings to feel more professional and 'VIP' */
+@layer components {
+  h1, .heading-1 {
+    font-family: typography, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+    font-size: 2.5rem; /* fallback, Tailwind sizes still apply */
+  }
+
+  h2, .heading-2 {
+    font-family: typography, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.08;
+  }
+
+  h3, .heading-3 {
+    font-family: typography, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    font-weight: 600;
+    letter-spacing: 0;
+  }
+}
